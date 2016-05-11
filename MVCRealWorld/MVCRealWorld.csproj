@@ -110,6 +110,8 @@
     <Content Include="Views\Home\Welcome.cshtml" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\AdminOnly.cshtml" />
+    <Content Include="Views\Home\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Models\ViewModel\UserLoginView.cs" />
     <Compile Include="Models\ViewModel\UserSignUpView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\AuthorizeRoleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

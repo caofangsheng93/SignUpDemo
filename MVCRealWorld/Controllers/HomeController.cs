@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCRealWorld.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,5 +20,16 @@ namespace MVCRealWorld.Controllers
         {
             return View();
         }
+
+        [AuthorizeRole("Admin")]  
+        public ActionResult AdminOnly()
+        {
+            return View();
+        }
+
+        public ActionResult UnAuthorized()
+        {
+            return View();
+        }  
     }
 }
