@@ -82,5 +82,18 @@ namespace MVCRealWorld.Controllers
             //如果登陆失败的话，就停留在Login页面上
             return View(model);
         }
+
+
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult SignOut()
+        {
+            //从浏览器删除身份验证票证
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index","Home");
+        }
     }
 }
