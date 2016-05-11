@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RoleBasedManageDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="RoleTable">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="100" />
+          <Property Name="RoleDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedUserID" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" />
+          <Property Name="ModifiedUserID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserProfileTable">
+          <Key>
+            <PropertyRef Name="UserProfileID" />
+          </Key>
+          <Property Name="UserProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CreatedUserID" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" />
+          <Property Name="ModifiedUserID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserSystemRoleTable">
+          <Key>
+            <PropertyRef Name="UserSystemRoleID" />
+          </Key>
+          <Property Name="UserSystemRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedUserID" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" />
+          <Property Name="ModifiedUserID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedUserID" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" />
+          <Property Name="ModifiedUserID" Type="int" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__UserProfi__UserI__0F975522">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserProfileTable" Type="Self.UserProfileTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserProfileTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserSyste__RoleI__173876EA">
+          <End Role="RoleTable" Type="Self.RoleTable" Multiplicity="1" />
+          <End Role="UserSystemRoleTable" Type="Self.UserSystemRoleTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleTable">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserSystemRoleTable">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserSyste__UserI__164452B1">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserSystemRoleTable" Type="Self.UserSystemRoleTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSystemRoleTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RoleBasedManageDBModelStoreContainer">
+          <EntitySet Name="RoleTable" EntityType="Self.RoleTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfileTable" EntityType="Self.UserProfileTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSystemRoleTable" EntityType="Self.UserSystemRoleTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__UserProfi__UserI__0F975522" Association="Self.FK__UserProfi__UserI__0F975522">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserProfileTable" EntitySet="UserProfileTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserSyste__RoleI__173876EA" Association="Self.FK__UserSyste__RoleI__173876EA">
+            <End Role="RoleTable" EntitySet="RoleTable" />
+            <End Role="UserSystemRoleTable" EntitySet="UserSystemRoleTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserSyste__UserI__164452B1" Association="Self.FK__UserSyste__UserI__164452B1">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserSystemRoleTable" EntitySet="UserSystemRoleTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RoleBasedManageDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="RoleTable">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserID" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserSystemRoleTable" Relationship="Self.FK__UserSyste__RoleI__173876EA" FromRole="RoleTable" ToRole="UserSystemRoleTable" />
+        </EntityType>
+        <EntityType Name="UserProfileTable">
+          <Key>
+            <PropertyRef Name="UserProfileID" />
+          </Key>
+          <Property Name="UserProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CreatedUserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserID" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserTable" Relationship="Self.FK__UserProfi__UserI__0F975522" FromRole="UserProfileTable" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="UserSystemRoleTable">
+          <Key>
+            <PropertyRef Name="UserSystemRoleID" />
+          </Key>
+          <Property Name="UserSystemRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedUserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserID" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RoleTable" Relationship="Self.FK__UserSyste__RoleI__173876EA" FromRole="UserSystemRoleTable" ToRole="RoleTable" />
+          <NavigationProperty Name="UserTable" Relationship="Self.FK__UserSyste__UserI__164452B1" FromRole="UserSystemRoleTable" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedUserID" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserProfileTable" Relationship="Self.FK__UserProfi__UserI__0F975522" FromRole="UserTable" ToRole="UserProfileTable" />
+          <NavigationProperty Name="UserSystemRoleTable" Relationship="Self.FK__UserSyste__UserI__164452B1" FromRole="UserTable" ToRole="UserSystemRoleTable" />
+        </EntityType>
+        <Association Name="FK__UserSyste__RoleI__173876EA">
+          <End Role="RoleTable" Type="Self.RoleTable" Multiplicity="1" />
+          <End Role="UserSystemRoleTable" Type="Self.UserSystemRoleTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleTable">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserSystemRoleTable">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserProfi__UserI__0F975522">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserProfileTable" Type="Self.UserProfileTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserProfileTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserSyste__UserI__164452B1">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserSystemRoleTable" Type="Self.UserSystemRoleTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSystemRoleTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RoleBasedManageDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RoleTable" EntityType="Self.RoleTable" />
+          <EntitySet Name="UserProfileTable" EntityType="Self.UserProfileTable" />
+          <EntitySet Name="UserSystemRoleTable" EntityType="Self.UserSystemRoleTable" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" />
+          <AssociationSet Name="FK__UserSyste__RoleI__173876EA" Association="Self.FK__UserSyste__RoleI__173876EA">
+            <End Role="RoleTable" EntitySet="RoleTable" />
+            <End Role="UserSystemRoleTable" EntitySet="UserSystemRoleTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserProfi__UserI__0F975522" Association="Self.FK__UserProfi__UserI__0F975522">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserProfileTable" EntitySet="UserProfileTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserSyste__UserI__164452B1" Association="Self.FK__UserSyste__UserI__164452B1">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserSystemRoleTable" EntitySet="UserSystemRoleTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RoleBasedManageDBModelStoreContainer" CdmEntityContainer="RoleBasedManageDBEntities">
+          <EntitySetMapping Name="RoleTable">
+            <EntityTypeMapping TypeName="RoleBasedManageDBModel.RoleTable">
+              <MappingFragment StoreEntitySet="RoleTable">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfileTable">
+            <EntityTypeMapping TypeName="RoleBasedManageDBModel.UserProfileTable">
+              <MappingFragment StoreEntitySet="UserProfileTable">
+                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSystemRoleTable">
+            <EntityTypeMapping TypeName="RoleBasedManageDBModel.UserSystemRoleTable">
+              <MappingFragment StoreEntitySet="UserSystemRoleTable">
+                <ScalarProperty Name="UserSystemRoleID" ColumnName="UserSystemRoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTable">
+            <EntityTypeMapping TypeName="RoleBasedManageDBModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
