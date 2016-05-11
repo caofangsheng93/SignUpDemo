@@ -85,5 +85,29 @@ namespace MVCRealWorld.Models.EntityManager
                 return db.UserTable.Where(s => s.UserName.Equals(loginName)).Any();
             }
         }
+
+        /// <summary>
+        /// 获取用户的密码
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <returns></returns>
+        public string GetUserPassword(string loginName)
+        {
+
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+                var user = db.UserTable.Where(s => s.UserName.ToLower().Equals(loginName));
+
+                if (user.Any())
+                {
+                    return user.FirstOrDefault().UserPassword;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            
+            }
+        }
     }
 }
