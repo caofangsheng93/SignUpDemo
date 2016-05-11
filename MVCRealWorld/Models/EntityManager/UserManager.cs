@@ -109,5 +109,39 @@ namespace MVCRealWorld.Models.EntityManager
             
             }
         }
+
+        /// <summary>
+        /// 根据用户名，判断角色名
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
+        public bool isUserInRole(string loginName, string roleName)
+        {
+
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+
+              UserTable loginUser = db.UserTable.Where(s => s.UserName.ToLower().Equals(loginName)).FirstOrDefault();
+              if (loginUser != null)
+              {
+                  //linq to sql好好学习一下。
+                  var roles = from q in db.UserSystemRoleTable
+                              join r in db.RoleTable on q.RoleID equals r.RoleID
+                              where r.RoleName.Equals(roleName) && q.UserID.Equals(loginUser.UserID)
+                              select r.RoleName;
+
+                  if (roles != null)
+                  {
+                      return roles.Any();
+                  }
+              }
+             
+              return false;
+              
+             
+
+            }
+        }
     }
 }
