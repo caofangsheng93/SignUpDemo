@@ -23,7 +23,7 @@ namespace MVCRealWorld.Controllers
             return View();
         }
 
-        [AuthorizeRole("Admin")]  
+        //[AuthorizeRole("Admin")]   //暂时注释
         public ActionResult AdminOnly()
         {
             return View();
@@ -34,7 +34,7 @@ namespace MVCRealWorld.Controllers
             return View();
         }
 
-        [AuthorizeRole("Admin")]
+        //[AuthorizeRole("Admin")]   //暂时注释
         public ActionResult ManageUserPartial()
         {
             if (User.Identity.IsAuthenticated)
