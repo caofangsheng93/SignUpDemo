@@ -276,7 +276,7 @@ namespace MVCRealWorld.Models.EntityManager
             UserRoleList = roleView
             
             };
-
+            //用户性别
             userDataView.UserGender = new UserGender() 
             { 
             
