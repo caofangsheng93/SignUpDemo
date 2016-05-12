@@ -143,5 +143,150 @@ namespace MVCRealWorld.Models.EntityManager
 
             }
         }
+
+        /// <summary>
+        /// 获取所有的角色
+        /// </summary>
+        /// <returns></returns>
+        public List<RoleView> GetAllRoles()
+        {
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+                var roles = db.RoleTable.Select(s => new RoleView {
+                RoleID=s.RoleID,
+                RoleName=s.RoleName,
+                RoleDescription=s.RoleDescription
+                
+                }).ToList();
+
+                return roles;
+            }
+        }
+
+        /// <summary>
+        /// 根据用户名获取用户ID
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <returns></returns>
+        public int GetUserID(string loginName)
+        {
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+                var user = db.UserTable.Where(s => s.UserName.Equals(loginName));
+
+                if (user.Any())
+                {
+                    return user.FirstOrDefault().UserID;
+                }
+                else
+                {
+                    return 0;
+                }
+            
+            }
+        }
+
+        /// <summary>
+        /// 获取用户详情
+        /// </summary>
+        /// <returns></returns>
+        public List<UserProfileView> GetAllUserProfiles()
+        {
+            List<UserProfileView> userProfilesVIew = new List<UserProfileView>();
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+                UserProfileView UPV;
+                //获取所有的用户
+                var users = db.UserTable.ToList();
+
+                foreach (var item in users)
+                {
+                    UPV = new UserProfileView();
+                    UPV.UserID = item.UserID;
+                    UPV.UserName = item.UserName;
+                    UPV.UserPassword = item.UserPassword;
+
+                    //根据用户ID查用户详情
+                    var userProfile = db.UserProfileTable.Find(item.UserID);
+
+                    if (userProfile != null)
+                    {
+                        UPV.FirstName = userProfile.FirstName;
+                        UPV.LastName = userProfile.LastName;
+                        UPV.Gender = userProfile.Gender;
+                    }
+
+                    //根据用户ID查角色
+                    var roles = db.UserSystemRoleTable.Where(s => s.UserID.Equals(item.UserID));
+
+                    if (roles.Any())
+                    {
+                        var userRole = roles.FirstOrDefault();
+                        UPV.RoleID = userRole.RoleID;
+                        UPV.RoleName = userRole.RoleTable.RoleName;
+                        UPV.IsRoleActive = userRole.IsActive;
+                    }
+
+                    userProfilesVIew.Add(UPV);
+                }
+
+                return userProfilesVIew;
+
+            }
+        
+        }
+
+
+        public UserDataView GetUserDataView(string loginName)
+        {
+            UserDataView userDataView = new UserDataView();
+            //获取用户详情
+            List<UserProfileView> userProfiles = GetAllUserProfiles();
+
+            //获取所有的角色
+            List<RoleView> roleView= GetAllRoles();
+
+            int? userAssignedRoleID = 0;
+            int userID = 0;
+            string userGender = string.Empty;
+
+            userID= GetUserID(loginName);
+
+            using (RoleBasedManageDBEntities db = new RoleBasedManageDBEntities())
+            {
+                //获取用户的角色ID
+                userAssignedRoleID = db.UserSystemRoleTable.Where(s => s.UserID.Equals(userID)).FirstOrDefault().RoleID;
+                //获取用户的性别
+                userGender = db.UserProfileTable.Where(s => s.UserID.Equals(userID)).FirstOrDefault().Gender;
+            }
+
+            List<Gender> genders = new List<Gender>() 
+            {
+            
+            new Gender(){Text="Male",Value="M"},
+            new Gender(){Text="Female",Value="F"}
+            };
+
+            //用户详情
+            userDataView.UserProfile = userProfiles;
+            //用户角色
+            userDataView.UserRoles = new UserRoles() 
+            {
+            SelectedRoleID=userAssignedRoleID,
+            UserRoleList = roleView
+            
+            };
+
+            userDataView.UserGender = new UserGender() 
+            { 
+            
+            SelectedGender=userGender,
+            Gender=genders
+            
+            };
+            return userDataView;
+
+        }
+
     }
 }

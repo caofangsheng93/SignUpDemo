@@ -148,7 +148,13 @@
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntityManager\UserManager.cs" />
+    <Compile Include="Models\ViewModel\Gender.cs" />
+    <Compile Include="Models\ViewModel\RoleView.cs" />
+    <Compile Include="Models\ViewModel\UserDataView.cs" />
+    <Compile Include="Models\ViewModel\UserGender.cs" />
     <Compile Include="Models\ViewModel\UserLoginView.cs" />
+    <Compile Include="Models\ViewModel\UserProfileView.cs" />
+    <Compile Include="Models\ViewModel\UserRoles.cs" />
     <Compile Include="Models\ViewModel\UserSignUpView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AuthorizeRoleAttribute.cs" />
