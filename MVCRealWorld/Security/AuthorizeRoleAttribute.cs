@@ -27,6 +27,7 @@ namespace MVCRealWorld.Security
                 UserManager UM = new UserManager();
                 foreach (var roles in userAssignedRoles)
                 {
+                    //authorize = UM.isUserInRole(httpContext., roles);
                     authorize = UM.isUserInRole(httpContext.User.Identity.Name, roles);
                     if (authorize)
                         return authorize;

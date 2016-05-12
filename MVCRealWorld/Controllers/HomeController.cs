@@ -23,7 +23,7 @@ namespace MVCRealWorld.Controllers
             return View();
         }
 
-        //[AuthorizeRole("Admin")]   //暂时注释
+        [AuthorizeRole("Admin")]   
         public ActionResult AdminOnly()
         {
             return View();
