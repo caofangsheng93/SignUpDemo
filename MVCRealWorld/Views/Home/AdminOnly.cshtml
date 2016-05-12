@@ -10,3 +10,6 @@ And here’s the UnAuthorized.cshtml view:
     ViewBag.Title = "UnAuthorized";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }  
+<div id="divUserListContainer">
+    @Html.Action("ManageUserPartial", "Home");
+</div>  
